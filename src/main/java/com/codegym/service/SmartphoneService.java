@@ -31,4 +31,9 @@ public class SmartphoneService implements ISmartphoneService {
     public void remove(Long id) {
         smartPhoneRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Smartphone> findByName(String nameProducer) {
+        return smartPhoneRepository.findBy;
+    }
 }

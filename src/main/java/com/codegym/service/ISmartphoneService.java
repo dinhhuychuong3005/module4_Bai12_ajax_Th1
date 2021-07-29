@@ -12,4 +12,6 @@ public interface ISmartphoneService {
     Smartphone save(Smartphone smartphone);
 
     void remove(Long id);
+
+    Optional<Smartphone> findByName(String nameProducer) ;
 }

@@ -38,23 +38,26 @@ public class SmartphoneController {
         smartphoneService.remove(id);
         return new ResponseEntity<>(smartphone.get(),HttpStatus.NO_CONTENT);
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editSmartphonePage(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView("/phones/list");
-        Optional<Smartphone> smartphone = smartphoneService.findById(id);
-        System.out.println(id);
-        mav.addObject("sPhone", smartphone.get());
-        System.out.println(smartphone.get().getProducer());
-        return mav;
-    }
+//    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+//    public ModelAndView editSmartphonePage(@PathVariable Long id) {
+//        ModelAndView mav = new ModelAndView("/phones/list");
+//        Optional<Smartphone> smartphone = smartphoneService.findById(id);
+//        System.out.println(id);
+//        mav.addObject("sPhone", smartphone.get());
+//        System.out.println(smartphone.get().getProducer());
+//        return mav;
+//    }
     @GetMapping("/{id}")
-    public ResponseEntity<Smartphone> findById(@PathVariable Long id){
-        return new ResponseEntity<>(smartphoneService.findById(id).get(),HttpStatus.OK);
+    public ResponseEntity<Smartphone> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(smartphoneService.findById(id).get(), HttpStatus.OK);
     }
-   @PutMapping("/{id}")
-    public ResponseEntity<Smartphone> editSmartphone(@PathVariable Long id,Smartphone smartphone){
-        smartphone.setId(id);
-        return new ResponseEntity<>(smartphoneService.save(smartphone),HttpStatus.OK);
-   }
-
-}
+        @PutMapping("/{id}")
+        public ResponseEntity<Smartphone> editSmartPhone(@PathVariable Long id, @RequestBody Smartphone smartphone){
+            Optional<Smartphone>  smartphoneOptional = smartphoneService.findById(id);
+            if(!smartphoneOptional.isPresent()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            smartphone.setId(smartphoneOptional.get().getId());
+            return new ResponseEntity<>(smartphoneService.save(smartphone),HttpStatus.OK);
+        }
+    }
